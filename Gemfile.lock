@@ -7,6 +7,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    date (3.2.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     dry-inflector (0.2.1)
@@ -34,14 +35,26 @@ GEM
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
     ice_nine (0.11.2)
+    mini_portile2 (2.8.0)
     multipart-post (2.2.3)
-    requests (1.0.2)
+    nokogiri (1.13.6)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+    open-uri (0.2.0)
+      stringio
+      time
+      uri
+    racc (1.6.0)
     ruby2_keywords (0.0.5)
+    stringio (3.0.2)
     telegram-bot-ruby (0.19.2)
       dry-inflector
       faraday (~> 1.0)
       virtus (~> 2.0)
     thread_safe (0.3.6)
+    time (0.2.0)
+      date
+    uri (0.11.0)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -51,7 +64,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  requests (~> 1.0, >= 1.0.2)
+  nokogiri
+  open-uri
   telegram-bot-ruby
 
 BUNDLED WITH

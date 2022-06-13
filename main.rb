@@ -1,5 +1,7 @@
 require 'telegram/bot'
-require 'requests'
+require 'nokogiri'
+require 'open-uri'
+require 'uri'
 require_relative 'helpers.rb'
 require_relative 'config/api_key_override.rb'
 
@@ -13,14 +15,25 @@ class Greeting
 end
 
 greeting = Greeting.new
-puts greeting.random_holiday
+#puts greeting.random_holiday
 
-response = Requests.request("GET", "https://yandex.ru/images/search?text=fork", options: {})
+# construct EN google image search results page
+url = URI.encode("https://www.google.com/search?q=#{greeting.random_holiday}&hl=ru&tbm=isch" )
+puts("here111", url)
 
-# And again you get a response
-puts response.status  #=> Number with the status code
-puts response.headers #=> Hash with the response headers
-puts response.body    #=> String with the response body
+# scrape google images
+doc = Nokogiri::HTML.parse(open(url).read)
+
+# store all image urls on the first search page in an array
+imgs = doc.search('img').map(&:attributes).map { |node| node['src'].value }
+
+# filter bad urls
+imgs.select { |url| url.match(/https/) }
+#puts imgs
+
+# print and return random image url
+image = imgs[1]
+puts("HERE222", image)
 
 Telegram::Bot::Client.run(api_key) do |bot|
     bot.listen do |message|
