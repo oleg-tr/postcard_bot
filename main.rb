@@ -15,11 +15,11 @@ class Greeting
 end
 
 greeting = Greeting.new
-#puts greeting.random_holiday
+x = greeting.random_holiday
 
 # construct EN google image search results page
-url = URI.encode("https://www.google.com/search?q=#{greeting.random_holiday}&hl=ru&tbm=isch" )
-puts("here111", url)
+url = URI.encode("https://www.google.com/search?q=#{x}&hl=ru&tbm=isch" )
+#puts("here111", url)
 
 # scrape google images
 doc = Nokogiri::HTML.parse(open(url).read)
@@ -33,10 +33,16 @@ imgs.select { |url| url.match(/https/) }
 
 # print and return random image url
 image = imgs[1]
-puts("HERE222", image)
+#puts("HERE222", image)
 
 Telegram::Bot::Client.run(api_key) do |bot|
     bot.listen do |message|
-
-end
+        case message.text
+        when '/holiday'
+            bot.api.send_message(
+                chat_id:message.chat.id,
+                text:"#{image} #{x}!"
+            )
+        end
+    end
 end
